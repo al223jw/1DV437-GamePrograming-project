@@ -38,7 +38,7 @@ namespace Blockbreaker.View
         {
 
             ballView.DrawBall();
-            brickView.DrawBricks();
+            //brickView.DrawBricks();
 
             platformRadius = PlatformRadius();
 

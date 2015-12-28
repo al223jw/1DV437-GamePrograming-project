@@ -17,7 +17,6 @@ namespace Blockbreaker.Model
         {
             platformLogicCords = GenerateLogicChords();
             
-            Console.WriteLine(Mouse.GetState().X);
         }
 
         public Vector2 PlatformLogicChords

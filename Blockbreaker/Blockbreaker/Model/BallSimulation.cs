@@ -53,15 +53,14 @@ namespace Blockbreaker.Model
             if (ball.BallLogicCords.X + ball.BallLogicDiameter >= platform.PlatformLogicChords.X + platform.PlatformLengt + platform.PlatformHeight && 
                 ball.BallLogicCords.Y + ball.BallLogicDiameter >= platform.PlatformLogicChords.Y + platform.PlatformLengt + platform.PlatformHeight)
             {
-                Console.WriteLine(ball);
                 ball.CollisionPlatform();
             }
 
-            if (ball.BallLogicCords.X + ball.BallLogicDiameter >= brick.BrickLogicCords.X + brick.BrickLengt + brick.BrickHeight && 
-                ball.BallLogicCords.Y + ball.BallLogicDiameter >= brick.BrickLogicCords.Y + brick.BrickLengt + brick.BrickHeight)
-            {
-                ball.CollisionBrick();
-            }
+            //if (ball.BallLogicCords.X + ball.BallLogicDiameter >= brick.BrickLogicCords.X + brick.BrickLengt + brick.BrickHeight && 
+            //    ball.BallLogicCords.Y + ball.BallLogicDiameter >= brick.BrickLogicCords.Y + brick.BrickLengt + brick.BrickHeight)
+            //{
+            //    ball.CollisionBrick();
+            //}
         }
     }
 }

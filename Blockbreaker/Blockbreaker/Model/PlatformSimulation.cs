@@ -7,5 +7,11 @@ namespace Blockbreaker.Model
 {
     class PlatformSimulation
     {
+        Platform platform = new Platform();
+
+        public void Update(float timeElapsed)
+        {
+            platform.UpdateLocation(timeElapsed);
+        }
     }
 }

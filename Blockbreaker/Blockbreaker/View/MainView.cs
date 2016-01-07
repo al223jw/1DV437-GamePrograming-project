@@ -31,6 +31,7 @@ namespace Blockbreaker.View
             brickView = new BrickView(spriteBatch, camera, content, brickSimulation);
 
             platformTexture = loadGraphics(content);
+            Console.WriteLine(platform.PlatformLogicChords);
         }
 
 
@@ -38,12 +39,7 @@ namespace Blockbreaker.View
         {
 
             ballView.DrawBall();
-            //brickView.DrawBricks();
-
-            platformRadius = PlatformRadius();
-
-            int sizeX = (int)(device.Viewport.Width * (platformRadius * 2));
-            int x = Mouse.GetState().X - sizeX / 2;
+            brickView.DrawBricks();
 
             spriteBatch.Begin();
 
@@ -52,7 +48,7 @@ namespace Blockbreaker.View
                              null,
                              Color.White,
                              0,
-                             new Vector2(x, 0),
+                             new Vector2(0, 0),
                              camera.GetPlatformScale(platformTexture),
                              SpriteEffects.None,
                              0f);
@@ -63,14 +59,6 @@ namespace Blockbreaker.View
         private Texture2D loadGraphics(ContentManager content)
         {
             return platformTexture = content.Load<Texture2D>("platform.png");
-        }
-
-        private float PlatformRadius()
-        {
-            float radius;
-            radius = platform.PlatformHeight + platform.PlatformLengt; 
-
-            return radius;
         }
     }
 }

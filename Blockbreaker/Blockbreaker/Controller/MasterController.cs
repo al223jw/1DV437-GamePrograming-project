@@ -17,6 +17,7 @@ namespace Blockbreaker
         BallSimulation ballSimulation;
         BrickSimulation brickSimulation;
         Platform platform;
+        PlatformSimulation platformSimulation;
         GameController gameController;
 
         private float ExplosionScale;
@@ -61,6 +62,7 @@ namespace Blockbreaker
             //gameController = new GameController(ExplosionScale, Content);
 
             ballSimulation = new BallSimulation();
+            platformSimulation = new PlatformSimulation();
             mainView = new MainView(GraphicsDevice, Content, ballSimulation, brickSimulation);
         }
 
@@ -87,6 +89,7 @@ namespace Blockbreaker
 
             //Updates the ball position
             ballSimulation.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            platformSimulation.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
         }

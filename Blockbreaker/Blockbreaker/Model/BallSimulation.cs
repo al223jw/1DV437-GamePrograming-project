@@ -56,11 +56,11 @@ namespace Blockbreaker.Model
                 ball.CollisionPlatform();
             }
 
-            //if (ball.BallLogicCords.X + ball.BallLogicDiameter >= brick.BrickLogicCords.X + brick.BrickLengt + brick.BrickHeight && 
-            //    ball.BallLogicCords.Y + ball.BallLogicDiameter >= brick.BrickLogicCords.Y + brick.BrickLengt + brick.BrickHeight)
-            //{
-            //    ball.CollisionBrick();
-            //}
+            if (ball.BallLogicCords.X + ball.BallLogicDiameter >= brick.BrickLogicCords.X + brick.BrickLengt + brick.BrickHeight && 
+                ball.BallLogicCords.Y + ball.BallLogicDiameter >= brick.BrickLogicCords.Y + brick.BrickLengt + brick.BrickHeight)
+            {
+                ball.CollisionBrick();
+            }
         }
     }
 }

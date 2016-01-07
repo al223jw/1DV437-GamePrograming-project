@@ -10,6 +10,7 @@ namespace Blockbreaker.Model
     class Platform
     {
         private Vector2 platformLogicCords;
+        private float platformLogicSpeed = 0.3f;
         private const float platformLenght = 0.17f;
         private const float platformHeight = 0.03f;
 
@@ -34,9 +35,9 @@ namespace Blockbreaker.Model
             get { return platformHeight; }
         }
 
-        public void UpdateLocation()
+        public void UpdateLocation(float time)
         {
-            platformLogicCords.X += Mouse.GetState().X;
+            platformLogicCords.X += time * platformLogicSpeed;
         }
 
         private Vector2 GenerateLogicChords()

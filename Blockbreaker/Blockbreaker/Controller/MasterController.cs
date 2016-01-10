@@ -12,28 +12,34 @@ namespace Blockbreaker
     /// </summary>
     public class MasterController : Game
     {
-        GraphicsDeviceManager graphics;
-        MainView mainView;
-        BallSimulation ballSimulation;
-        BrickSimulation brickSimulation;
-        Platform platform;
-        PlatformSimulation platformSimulation;
         GameController gameController;
 
-        private float ExplosionScale;
+        GraphicsDeviceManager device;
+        SpriteBatch spriteBatch;
+        Camera camera;
+
+        Brick brick;
+        Vector2 pos;
+        float size;
+
+        GameState currentState;
+        enum GameState
+        { 
+            mainMenu,
+            playing,
+            midMenu,
+        }
 
         public MasterController()
         {
-            graphics = new GraphicsDeviceManager(this);
+            device = new GraphicsDeviceManager(this);
+            device.PreferredBackBufferWidth = 1600;
+            device.PreferredBackBufferHeight = 900;
+            device.ApplyChanges();
+            //this.IsMouseVisible = true;
             Content.RootDirectory = "Content";
-
-            graphics.PreferredBackBufferWidth = 760;
-            graphics.PreferredBackBufferHeight = 760;
-            graphics.ApplyChanges();
-
-            //sets the scale for the explosion
-            //1 is default size
-            ExplosionScale = 1f;
+            //currentState = GameState.mainMenu;
+            currentState = GameState.playing;
         }
 
 
@@ -56,14 +62,11 @@ namespace Blockbreaker
         /// </summary>
         protected override void LoadContent()
         {
-            //makes the mouse visible on the game screen
-            this.IsMouseVisible = true;
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            camera = new Camera(device.GraphicsDevice.Viewport);
+            gameController = new GameController(Content, device, spriteBatch, camera);
 
-            //gameController = new GameController(ExplosionScale, Content);
-
-            ballSimulation = new BallSimulation();
-            platformSimulation = new PlatformSimulation();
-            mainView = new MainView(GraphicsDevice, Content, ballSimulation, brickSimulation);
+            brick = new Brick(Content, pos, size);
         }
 
         /// <summary>
@@ -84,14 +87,20 @@ namespace Blockbreaker
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                Exit();
+                currentState = GameState.midMenu;
             }
 
-            //Updates the ball position
-            ballSimulation.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            platformSimulation.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                if (currentState == GameState.playing || currentState == GameState.midMenu)
+                {
+                    gameController.loadLevel();
+                    currentState = GameState.playing;
+                }
+            }
 
-            base.Update(gameTime);
+            gameController.Update(gameTime, brick);
+
         }
 
         /// <summary>
@@ -101,9 +110,11 @@ namespace Blockbreaker
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin();
 
-            //draws the game
-            mainView.DrawGame();
+            gameController.Draw(gameTime);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

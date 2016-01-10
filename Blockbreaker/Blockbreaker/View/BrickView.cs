@@ -40,22 +40,22 @@ namespace Blockbreaker.View
         {
             spriteBatch.Begin();
 
-            List<Brick> bricks = brickSimulation.getBricks();
-            foreach (Brick b in bricks)
-            {
+            //List<Brick> bricks = brickSimulation.getBricks();
+            //foreach (Brick b in bricks)
+            //{
 
-                spriteBatch.Draw(redBlock,
-                                 camera.GetBrickVisualCord(redBlock, b),
-                                 null,
-                                 Color.White,
-                                 0,
-                                 new Vector2(0, 0),
-                                 camera.GetBrickScale(redBlock, b),
-                                 SpriteEffects.None,
-                                 0f);
+            //    spriteBatch.Draw(redBlock,
+            //                     camera.GetBrickVisualCord(redBlock, b),
+            //                     null,
+            //                     Color.White,
+            //                     0,
+            //                     new Vector2(0, 0),
+            //                     camera.GetBrickScale(redBlock, b),
+            //                     SpriteEffects.None,
+            //                     0f);
 
-            }
-            spriteBatch.End();
+            //}
+            //spriteBatch.End();
         }
     }
 }

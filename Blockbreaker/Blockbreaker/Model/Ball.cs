@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,107 +9,120 @@ namespace Blockbreaker.Model
 {
     class Ball
     {
-        private Vector2 ballLogicCords;
-        private float ballLogicSpeedX;
-        private float ballLogicSpeedY;
-        private const float ballLogicDiameter = 0.03f;
+        Vector2 position;
+        Vector2 velocity = new Vector2(1f, -3f);
 
-        private int life = 3;
-        private bool isDead = true;
-        private bool brickLife;
-        Random rand = new Random();
+        Vector2 ballSize = new Vector2(0.2f, 0.2f);
+        SystemOfMap systemOfMap;
+
+        bool _isDead = false;
 
 
-        public Ball()
+        public Ball(SystemOfMap _systamOfMap)
         {
-            isDead = false;
-            this.ballLogicCords = GenerateRandomLogicCords();
-            ballLogicSpeedX = 0.3f;
-            ballLogicSpeedY = 0.3f;
-        }
-        public Vector2 BallLogicCords
-        {
-            get { return ballLogicCords; }
+            systemOfMap = _systamOfMap;
+            position = _systamOfMap.getBallSpawnLocation;
         }
 
-        public float BallLogicDiameter
+        public Vector2 getSize
         {
-            get { return ballLogicDiameter; }
-        }
-
-        public void UpdateLocation(float time)
-        {
-            ballLogicCords.X += time * ballLogicSpeedX;
-            ballLogicCords.Y += time * ballLogicSpeedY;
-        }
-
-        public void CollisionHorizontalWall()
-        {
-            if (!isDead)
+            get
             {
-                float NewSpeed = 0.3f;
-
-                if (ballLogicCords.Y <= 0)
-                {
-                    ballLogicCords.Y = 0;
-                    ballLogicSpeedY = NewSpeed;
-                }
-                else
-                {
-                    ballLogicCords.Y = 1 - ballLogicDiameter;
-                    ballLogicSpeedY = -NewSpeed;
-                }
+                return ballSize;
             }
         }
 
-        public void CollisionVerticalWall()
+        public bool isDead
         {
-            if (!isDead)
+            get
             {
-                float NewSpeed = 0.3f;
-
-                if (ballLogicCords.X <= 0)
-                {
-                    ballLogicCords.X = 0;
-                    ballLogicSpeedX = NewSpeed;
-                }
-                else
-                {
-                    ballLogicCords.X = 1 - ballLogicDiameter;
-                    ballLogicSpeedX = -NewSpeed;
-                }
+                return _isDead;
+            }
+            set
+            {
+                _isDead = value;
             }
         }
 
-        public void CollisionPlatform()
+        public Vector2 Velocity
         {
-            float speedAccselerate = 0.01f;
-            float newSpeed = 0.3f + speedAccselerate;
-            ballLogicSpeedY = -newSpeed;
+            get
+            {
+                return velocity;
+            }
+            set
+            {
+                velocity = value;
+            }
         }
 
-        public void CollisionBrick()
+        public void Update(float elapsedTime)
         {
-            brickLife = false;
-            float newSpeed = 0.3f;
-            ballLogicSpeedY = newSpeed;
+            position = elapsedTime * velocity + position;
+            Collision();
         }
 
-        private Vector2 GenerateRandomLogicCords()
+        public void Collision()
         {
-            int x = rand.Next(10, 90);
-            int y = rand.Next(10, 90);
-            float xCord = (float)x / 100f;
-            float yCord = (float)y / 100f;
-            return new Vector2(xCord, yCord);
+
+            if (position.X + ballSize.X / 2 >= 16)
+            {
+                position.X = 16 - ballSize.X / 2;
+                velocity.X = -3f;
+            }
+            else if (position.X - ballSize.X / 2 <= 0)
+            {
+                position.X = 0 + ballSize.X / 2;
+                velocity.X = 3f;
+            }
+
+            if (position.Y >= 10)
+            {
+                isDead = true;
+            }
+
+            if (position.Y <= 0)
+            {
+                position.Y = 0 + ballSize.Y / 2;
+                velocity.Y = 3f;
+            }
         }
 
-        internal void DeadBall()
+        public void ballLandsOPlatform(Platform platform)
         {
-            isDead = true;
-            ballLogicSpeedX = 0;
-            ballLogicSpeedY = 0;
-            life--;
+            velocity.Y = -3f;
+        }
+
+        public void ballHitsABrick(Brick brick)
+        {
+               velocity.Y = 3f;
+        }
+
+        public void ballHitsABrickFromAbove(Brick brick)
+        {
+            velocity.Y = -3f;
+        }
+
+        public void ballHitsBrickSide(Brick brick)
+        {
+            if (velocity.X == 3f)
+            {
+                velocity.X = -3f;
+            }
+            velocity.X = 3f;
+        }
+
+
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+            set
+            {
+                Position = value;
+            }
         }
     }
 }

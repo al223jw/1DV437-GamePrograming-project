@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,35 +9,86 @@ namespace Blockbreaker.Model
 {
     class Brick
     {
-        private Vector2 brickLogicCords;
-        private const float brickLenght = 0.05f;
-        private const float brickHeight = 0.01f;
+        Vector2 position;
+        Vector2 brickSize;
+        bool isDead = false;
 
-        public Brick()
+        public Brick(ContentManager Content, Vector2 pos, float size)
         {
-            brickLogicCords = GenerateLogicCords();
+            brickSize = new Vector2(size, size);
+            position = pos;
         }
 
-        public Vector2 BrickLogicCords
+        public Vector2 Size
         {
-            get { return brickLogicCords; }
+            get
+            {
+                return brickSize;
+            }
         }
 
-        public float BrickLengt
+        public Vector2 Position
         {
-            get { return brickLenght; }
+            get
+            {
+                return position;
+            }
         }
 
-        public float BrickHeight
+        public bool hitsABlock(Ball ball)
         {
-            get { return brickHeight; }
+            float minX, maxX, minY, maxY;
+            minX = position.X - brickSize.X / 2;
+            maxX = position.X + brickSize.X / 2;
+            minY = position.Y - brickSize.Y / 2;
+            maxY = position.Y + brickSize.Y / 2;
+
+            return
+                (
+                ball.Position.X + ball.getSize.X / 3 > minX && ball.Position.X - ball.getSize.X / 3 < maxX &&
+                ball.Position.Y > minY &&
+                ball.Position.Y - ball.getSize.Y / 2 < maxY &&
+                ball.Velocity.Y <= -3f
+                );
         }
 
-        private Vector2 GenerateLogicCords()
+        public bool hitsABlockFromAbove(Ball ball)
         {
-            float xCord = 0f;
-            float yCord = 0.1f;
-            return new Vector2(xCord, yCord);
+            float minX, maxX, minY, maxY;
+
+            minX = position.X - brickSize.X / 2;
+            maxX = position.X + brickSize.X / 2;
+            minY = position.Y - brickSize.Y / 2;
+            maxY = position.Y + brickSize.Y / 2;
+
+            return
+                (
+                ball.Position.X + ball.getSize.X / 3 > minX && ball.Position.X - ball.getSize.X / 3 < maxX &&
+                ball.Position.Y + ball.getSize.Y / 2 > minY &&
+                ball.Position.Y - ball.getSize.Y / 2 < minY &&
+                ball.Velocity.Y >= 3f
+                );
+        }
+
+        public bool collisionSide(Ball ball)
+        {
+            float minX, maxX, minY, maxY;
+            minX = position.X - brickSize.X / 2;
+            maxX = position.X + brickSize.X / 2;
+            minY = position.Y - brickSize.Y / 2;
+            maxY = position.Y + brickSize.Y / 2;
+
+            return
+                (
+                ball.Position.Y + ball.getSize.Y / 3 > minY && ball.Position.Y - ball.getSize.Y / 3 < maxY &&
+                ball.Position.X + ball.getSize.X / 2 > minX &&
+                ball.Position.X - ball.getSize.X / 2 < maxX
+                );
+        }
+
+        public bool brickIsDead()
+        {
+            return isDead = true;
         }
     }
 }

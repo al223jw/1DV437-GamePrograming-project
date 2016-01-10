@@ -62,13 +62,16 @@
     <Compile Include="Model\BallSimulation.cs" />
     <Compile Include="Model\Brick.cs" />
     <Compile Include="Model\BrickSimulation.cs" />
+    <Compile Include="Model\LevelCreater.cs" />
     <Compile Include="Model\Platform.cs" />
     <Compile Include="Model\PlatformSimulation.cs" />
+    <Compile Include="Controller\SystemOfMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\BallView.cs" />
     <Compile Include="View\BrickView.cs" />
     <Compile Include="View\Camera.cs" />
+    <Compile Include="View\LevelView.cs" />
     <Compile Include="View\MainView.cs" />
     <Compile Include="View\PlatformView.cs" />
   </ItemGroup>

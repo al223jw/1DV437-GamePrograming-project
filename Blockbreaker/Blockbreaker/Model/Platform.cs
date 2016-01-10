@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -9,42 +10,91 @@ namespace Blockbreaker.Model
 {
     class Platform
     {
-        private Vector2 platformLogicCords;
-        private float platformLogicSpeed = 0.3f;
-        private const float platformLenght = 0.17f;
-        private const float platformHeight = 0.03f;
+        Vector2 position;
+        Vector2 platfromSize;
+        Vector2 velocity;
+        float moveSpeed = 200f;
 
-        public Platform()
+
+        public Platform(Vector2 pos)
         {
-            platformLogicCords = GenerateLogicChords();
-            
+            platfromSize = new Vector2(1.7f, 0.2f);
+            position = pos;
         }
 
-        public Vector2 PlatformLogicChords
+        public Vector2 Size
         {
-            get { return platformLogicCords; }
+            get
+            {
+                return platfromSize;
+            }
         }
 
-        public float PlatformLengt
+        public Vector2 Position
         {
-            get { return platformLenght; }
+            get
+            {
+                return position;
+            }
         }
 
-        public float PlatformHeight
+        public Vector2 Velocity
         {
-            get { return platformHeight; }
+            get
+            {
+                return velocity;
+            }
+            set
+            {
+                velocity = value;
+            }
         }
 
-        public void UpdateLocation(float time)
+        public void Update(float elapsedTime)
         {
-            platformLogicCords.X += time * platformLogicSpeed;
+            velocity = elapsedTime * velocity;
+            position = elapsedTime * velocity + position;
         }
 
-        private Vector2 GenerateLogicChords()
+        public bool landsOnplatform(Ball ball)
         {
-            float xCord = 0.42f;
-            float yCord = 0.9f;
-            return new Vector2(xCord, yCord);
+            float minX, maxX, minY, maxY;
+            minX = position.X - platfromSize.X / 2;
+            maxX = position.X + platfromSize.X / 2;
+            minY = position.Y - platfromSize.Y / 2;
+            maxY = position.Y + platfromSize.Y / 2;
+
+            return
+                (
+                    ball.Position.X + ball.getSize.X / 3 > minX && ball.Position.X - ball.getSize.X / 3 < maxX &&
+                    ball.Position.Y + ball.getSize.Y / 2 > minY &&
+                    ball.Position.Y - ball.getSize.Y / 2 < minY &&
+                    ball.Velocity.Y >= 0f
+                );
+        }
+
+        public void moveLeft()
+        {
+            if (position.X - platfromSize.X / 2 <= 0)
+            {
+                stopMoving();
+                return;
+            }
+            velocity.X = -moveSpeed;
+        }
+        public void moveRight()
+        {
+            if (position.X + platfromSize.X / 2 >= 16)
+            {
+                stopMoving();
+                return;
+            }
+            velocity.X = moveSpeed;
+        }
+
+        public void stopMoving()
+        {
+            velocity.X = 0;
         }
     }
 }

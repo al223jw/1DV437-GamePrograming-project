@@ -13,7 +13,7 @@ namespace Blockbreaker.Model
         Vector2 position;
         Vector2 platfromSize;
         Vector2 velocity;
-        float moveSpeed = 200f;
+        float moveSpeed = 250f;
 
 
         public Platform(Vector2 pos)
@@ -59,8 +59,8 @@ namespace Blockbreaker.Model
         public bool landsOnplatform(Ball ball)
         {
             float minX, maxX, minY, maxY;
-            minX = position.X - platfromSize.X / 2;
-            maxX = position.X + platfromSize.X / 2;
+            minX = position.X - (platfromSize.X - 0.7f) / 2;
+            maxX = position.X + (platfromSize.X - 0.7f) / 2;
             minY = position.Y - platfromSize.Y / 2;
             maxY = position.Y + platfromSize.Y / 2;
 
@@ -71,6 +71,40 @@ namespace Blockbreaker.Model
                     ball.Position.Y - ball.getSize.Y / 2 < minY &&
                     ball.Velocity.Y >= 0f
                 );
+        }
+
+        public bool landsOnPlatformLeftSide(Ball ball)
+        {
+            float minX, maxX, minY, maxY;
+            minX = position.X - (platfromSize.X) / 2;
+            maxX = position.X + (platfromSize.X - 2f) / 2;
+            minY = position.Y - platfromSize.Y / 2;
+            maxY = position.Y + platfromSize.Y / 2;
+
+            return
+            (
+                    ball.Position.X + ball.getSize.X / 3 > minX && ball.Position.X - ball.getSize.X / 3 < maxX &&
+                    ball.Position.Y + ball.getSize.Y / 2 > minY &&
+                    ball.Position.Y - ball.getSize.Y / 2 < minY &&
+                    ball.Velocity.Y >= 0f
+            );
+        }
+
+        public bool landsOnPlatformRightSide(Ball ball)
+        {
+            float minX, maxX, minY, maxY;
+            minX = position.X - (platfromSize.X - 3f) / 2;
+            maxX = position.X + (platfromSize.X) / 2;
+            minY = position.Y - platfromSize.Y / 2;
+            maxY = position.Y + platfromSize.Y / 2;
+
+            return
+            (
+                    ball.Position.X + ball.getSize.X / 3 > minX && ball.Position.X - ball.getSize.X / 3 < maxX &&
+                    ball.Position.Y + ball.getSize.Y / 2 > minY &&
+                    ball.Position.Y - ball.getSize.Y / 2 < minY &&
+                    ball.Velocity.Y >= 0f
+            );
         }
 
         public void moveLeft()

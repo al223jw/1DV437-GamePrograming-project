@@ -19,3 +19,9 @@
 /processorParam:Quality=Best
 /build:bounce.wav
 
+#begin fire.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:fire.wav
+

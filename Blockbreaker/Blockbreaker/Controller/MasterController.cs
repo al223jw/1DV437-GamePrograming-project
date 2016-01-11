@@ -13,10 +13,16 @@ namespace Blockbreaker
     public class MasterController : Game
     {
         GameController gameController;
-
+        MenuController menuController;
+        MidMenuController midMenuController;
         GraphicsDeviceManager device;
         SpriteBatch spriteBatch;
         Camera camera;
+        MouseState lastMouseState;
+        Audio audio;
+
+        float timer = 0;
+        float MenuShows = 0.5f;
 
         Brick brick;
         Vector2 pos;
@@ -36,10 +42,10 @@ namespace Blockbreaker
             device.PreferredBackBufferWidth = 1600;
             device.PreferredBackBufferHeight = 900;
             device.ApplyChanges();
-            //this.IsMouseVisible = true;
+            this.IsMouseVisible = true;
             Content.RootDirectory = "Content";
-            //currentState = GameState.mainMenu;
-            currentState = GameState.playing;
+            currentState = GameState.mainMenu;
+            audio = new Audio(Content);
         }
 
 
@@ -64,7 +70,9 @@ namespace Blockbreaker
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(device.GraphicsDevice.Viewport);
-            gameController = new GameController(Content, device, spriteBatch, camera);
+            gameController = new GameController(Content, device, spriteBatch, camera, audio);
+            menuController = new MenuController(Content, device, spriteBatch, camera);
+            midMenuController = new MidMenuController(Content, device, spriteBatch, camera);
 
             brick = new Brick(Content, pos, size);
         }
@@ -87,7 +95,7 @@ namespace Blockbreaker
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                currentState = GameState.midMenu;
+                currentState = GameState.mainMenu;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.R))
@@ -99,8 +107,77 @@ namespace Blockbreaker
                 }
             }
 
-            gameController.Update(gameTime, brick);
+            if (currentState == GameState.mainMenu)
+            {
+                var mouseState = Mouse.GetState();
+                if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    menuController.Update(new Vector2(mouseState.Position.X, mouseState.Position.Y));
 
+                    if (menuController.pressedContinue)
+                    {
+                        currentState = GameState.playing;
+                        menuController.pressedContinue = false;
+                    }
+                    else if (menuController.pressedNewGame)
+                    {
+                        currentState = GameState.playing;
+                        menuController.pressedNewGame = false;
+                        gameController.restart();
+                    }
+                }
+                lastMouseState = mouseState;
+            }
+
+            else if (currentState == GameState.playing)
+            {
+                gameController.Update(gameTime, brick);    
+            }
+            else if (currentState == GameState.midMenu)
+            {
+                var mouseState = Mouse.GetState();
+
+                if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    midMenuController.Update(new Vector2(mouseState.Position.X, mouseState.Position.Y), gameController.isBallDead(), gameController.nextLevelExists());
+
+                    if (midMenuController.pressedRestart)
+                    {
+                        currentState = GameState.playing;
+                        gameController.loadLevel();
+                        midMenuController.pressedRestart = false;
+                    }
+                    else if (midMenuController.pressedNext && !gameController.isBallDead())
+                    {
+                        currentState = GameState.playing;
+                        gameController.nextLevel();
+                        midMenuController.pressedNext = false;
+                    }
+                    else if(midMenuController.pressedMainMenu)
+                    {
+                        currentState = GameState.mainMenu;
+                        midMenuController.pressedMainMenu = false;
+                    }
+                }
+                lastMouseState = mouseState;
+            }
+
+            if (gameController.isBallDead() && currentState != GameState.midMenu)
+            {
+                timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (timer >= MenuShows)
+                {
+                    currentState = GameState.midMenu;
+                    timer = 0;
+                }
+            }
+            else if (gameController.FinishedLevel && currentState != GameState.midMenu)
+            {
+                currentState = GameState.midMenu;
+                gameController.FinishedLevel = false;
+            }
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -112,7 +189,18 @@ namespace Blockbreaker
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
 
-            gameController.Draw(gameTime);
+            if (currentState == GameState.mainMenu)
+            {
+                menuController.Draw();
+            }
+            else if (currentState == GameState.playing)
+            {
+                gameController.Draw(gameTime);
+            }
+            else if (currentState == GameState.midMenu)
+            {
+                midMenuController.Draw(gameController.isBallDead(), gameController.nextLevelExists());
+            }
 
             spriteBatch.End();
 

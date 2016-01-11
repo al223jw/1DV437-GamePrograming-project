@@ -15,6 +15,8 @@ namespace Blockbreaker.Model
         Vector2 ballSize = new Vector2(0.2f, 0.2f);
         SystemOfMap systemOfMap;
 
+        int ballLife = 3;
+        int countLife = 0;
         bool _isDead = false;
 
 
@@ -91,6 +93,18 @@ namespace Blockbreaker.Model
         public void ballLandsOPlatform(Platform platform)
         {
             velocity.Y = -3f;
+        }
+
+        public void ballLandsOPlatformRightSide(Platform platform)
+        {
+            velocity.Y = -3f;
+            velocity.X = 2f;
+        }
+
+        public void ballLandsOPlatformLeftSide(Platform platform)
+        {
+            velocity.Y = -3f;
+            velocity.X = -2f;
         }
 
         public void ballHitsABrick(Brick brick)

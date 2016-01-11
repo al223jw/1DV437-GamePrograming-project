@@ -15,11 +15,15 @@ namespace Blockbreaker.View
         private Camera camera;
         Vector2 ballCenter;
         Vector2 scale;
-        Texture2D ballTexture;
+        Texture2D ballTexture, spark;
 
-        public BallView(Ball _ball, Camera _camera, ContentManager Content)
+        List<ExplotionParticle> sparkParticles = new List<ExplotionParticle>();
+        Random rand = new Random();
+
+        public BallView(Ball _ball, Camera _camera, ContentManager Content, Texture2D _spark)
         {
             ball = _ball;
+            spark = _spark;
             camera = _camera;
             ballTexture = Content.Load<Texture2D>("Ball.png");
             ballCenter = new Vector2(ballTexture.Width / 2, ballTexture.Height / 2);
@@ -30,6 +34,11 @@ namespace Blockbreaker.View
 
         public void DrawBall(SpriteBatch spriteBatch, float elapsedTime)
         {
+            sparkParticles.Add(new ExplotionParticle(spark, rand, spriteBatch, camera, ball.Position, 1f));
+            foreach (ExplotionParticle particle in sparkParticles)
+            {
+                particle.Draw(elapsedTime);
+            }
             Vector2 ballVisualLocation = camera.convertToVisualCoords(ball.Position);
             spriteBatch.Draw(ballTexture, ballVisualLocation, null, Color.White, 0, ballCenter, scale, SpriteEffects.None, 1f);
         }

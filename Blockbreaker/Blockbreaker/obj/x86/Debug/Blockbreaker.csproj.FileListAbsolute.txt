@@ -33,3 +33,16 @@ D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\or
 D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\purpleblock.png
 D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\redblock.png
 D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\yellowblock.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\continue.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\mainmenu.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\newgame.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\wintext.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\nextbutton.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\restartbutton.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\title.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\spark.png
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Content\fire.xnb
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Blockbreaker.exe.manifest
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\bin\Windows\Debug\Blockbreaker.application
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\obj\x86\Debug\Blockbreaker.exe.manifest
+D:\Visual Studio\Projects\Blockbreaker\Blockbreaker\obj\x86\Debug\Blockbreaker.application

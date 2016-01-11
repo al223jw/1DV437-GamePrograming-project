@@ -18,6 +18,7 @@ namespace Blockbreaker.Model
         List<Brick> purpleBricks = new List<Brick>();
         List<Brick> redBricks = new List<Brick>();
         List<Brick> yellowBricks = new List<Brick>();
+        Audio audio;
         Platform platform;
 
         float size = 0.5f;
@@ -27,9 +28,10 @@ namespace Blockbreaker.Model
 
         LevelView levelView;
 
-        public SystemOfMap(ContentManager _content, Camera _camera, int levelSelect, SpriteBatch spriteBatch)
+        public SystemOfMap(ContentManager _content, Camera _camera, int levelSelect, SpriteBatch spriteBatch, Audio _audio)
         {
             levelView = new LevelView(_content, _camera, spriteBatch);
+            audio = _audio;
             content = _content;
             camera = _camera;
             LevelCreater levelCreator = new LevelCreater();
@@ -142,12 +144,31 @@ namespace Blockbreaker.Model
              return null;
         }
 
+        public Platform landsOnPlatformRightSIde(Ball ball)
+        { 
+             if (platform.landsOnPlatformRightSide(ball))
+             {
+                 return platform;
+             }
+             return null;
+        }
+
+        public Platform landsOnPlatformLeftSide(Ball ball)
+        { 
+             if (platform.landsOnPlatformLeftSide(ball))
+             {
+                 return platform;
+             }
+             return null;
+        }
+
         public Brick hitsGreenBrickFromAbove(Ball ball)
         {
             foreach (Brick brick in greenBricks)
             {
                 if (brick.hitsABlockFromAbove(ball))
                 {
+                    greenBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -160,6 +181,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlockFromAbove(ball))
                 {
+                    orangeBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -172,6 +194,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlockFromAbove(ball))
                 {
+                    purpleBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -184,6 +207,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlockFromAbove(ball))
                 {
+                    redBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -196,6 +220,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlockFromAbove(ball))
                 {
+                    yellowBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -208,6 +233,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlock(ball))
                 {
+                    greenBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -220,6 +246,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlock(ball))
                 {
+                    orangeBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -232,6 +259,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlock(ball))
                 {
+                    purpleBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -244,6 +272,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlock(ball))
                 {
+                    redBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -256,6 +285,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.hitsABlock(ball))
                 {
+                    yellowBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -268,6 +298,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.collisionSide(ball))
                 {
+                    greenBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -280,6 +311,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.collisionSide(ball))
                 {
+                    orangeBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -304,6 +336,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.collisionSide(ball))
                 {
+                    redBricks.Remove(brick);
                     return brick;
                 }
             }
@@ -316,6 +349,7 @@ namespace Blockbreaker.Model
             {
                 if (brick.collisionSide(ball))
                 {
+                    yellowBricks.Remove(brick);
                     return brick;
                 }
             }

@@ -5,5 +5,6 @@
   <Config />
   <SourceFiles>
     <File>D:/Visual Studio/Projects/Blockbreaker/Blockbreaker/Content/bounce.wav</File>
+    <File>D:/Visual Studio/Projects/Blockbreaker/Blockbreaker/Content/fire.wav</File>
   </SourceFiles>
 </SourceFileCollection>
